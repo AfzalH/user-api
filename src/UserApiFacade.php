@@ -1,6 +1,6 @@
 <?php
 
-namespace AfzalH\UserAPI;
+namespace AfzalH\UserApi;
 
 use Illuminate\Support\Facades\Facade;
 
@@ -16,6 +16,6 @@ class UserApiFacade extends Facade
      */
     protected static function getFacadeAccessor()
     {
-        return 'UserApi';
+        return 'userapi';
     }
 }

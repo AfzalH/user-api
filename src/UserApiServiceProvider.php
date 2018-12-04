@@ -23,6 +23,9 @@ class UserApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'userapi');
+        $this->app->singleton('userapi', function($app){
+            return new UserApi();
+        });
+//        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'userapi');
     }
 }
