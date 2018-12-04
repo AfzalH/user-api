@@ -1,0 +1,53 @@
+{
+    "name": "AfzalH/UserApi",
+    "description": "Plug and Play User API for Laravel",
+    "keywords": [
+        "AfzalH",
+        "UserApi"
+    ],
+    "homepage": "https://github.com/AfzalH/UserApi",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Afzal Hossain",
+            "email": "afzal.csedu@gmail.com",
+            "homepage": "https://srizon.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.1"
+    },
+    "require-dev": {
+        "larapack/dd": "^1.0",
+        "phpunit/phpunit": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "AfzalH\\UserApi\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "AfzalH\\UserApi\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "AfzalH\\UserApi\\UserApiServiceProvider"
+            ],
+            "aliases": {
+                "UserApi": "AfzalH\\UserApi\\UserApiFacade"
+            }
+        }
+    }
+}
