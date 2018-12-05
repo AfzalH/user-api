@@ -10,6 +10,53 @@ You can install the package via composer:
 composer require AfzalH/UserApi
 ```
 
+## Development Installation
+
+Enter your laravel root directory. Then...
+
+```bash
+mkdir afzalh && cd afzalh
+git clone https://github.com/AfzalH/user-api.git
+```
+edit `composer.json` (from laravel root) and add
+
+```
+"AfzalH\\UserApi\\": "afzalh/user-api/src"
+```
+inside `autoload -> psr-4` block
+
+and add
+
+```
+"AfzalH\\UserApi\\Tests\\": "afzalh/user-api/tests/"
+```
+inside `autoload-dev -> psr-4` block
+
+edit `phpunit.xml` (from laravel root) and add
+
+```
+<directory suffix="Test.php">./afzalh/user-api/tests</directory>
+```
+inside `<testsuite name="Feature">` block
+
+edit `config/app.php` and add
+
+```
+AfzalH\UserApi\UserApiServiceProvider::class,
+```
+inside `providers` array
+
+and
+
+```
+'UserApi' => AfzalH\UserApi\UserApiFacade::class,
+```
+inside `aliases` array
+
+and finally
+```
+composer dump-autoload
+```
 ## Usage
 
 TBD
