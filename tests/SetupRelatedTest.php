@@ -32,4 +32,16 @@ class SetupRelatedTest extends BaseTest
             'password' => 'secret'
         ])->assertStatus(200);
     }
+
+    /** @test */
+    public function adminUserCanNotLogInWithWrongPassword()
+    {
+        $this->artisan('passport:install');
+        $this->createAdminUser();
+        $this->post('oauth/token', [
+            'grant_type' => 'password',
+            'username' => 'afzal.csedu@gmail.com',
+            'password' => 'wrongPassword'
+        ])->assertStatus(401);
+    }
 }
