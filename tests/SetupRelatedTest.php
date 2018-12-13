@@ -14,7 +14,7 @@ class SetupRelatedTest extends BaseTest
     }
 
     /** @test */
-    public function testUserCreated()
+    public function testUserCanBeCreated()
     {
         $this->createRandomUsers(12);
         $count = User::count();
@@ -26,11 +26,12 @@ class SetupRelatedTest extends BaseTest
     {
         $this->artisan('passport:install');
         $this->createAdminUser();
-        $this->post('oauth/token', [
+        $res = $this->post('oauth/token', [
             'grant_type' => 'password',
             'username' => 'afzal.csedu@gmail.com',
             'password' => 'secret'
-        ])->assertStatus(200);
+        ]);
+        $res->assertStatus(200);
     }
 
     /** @test */
