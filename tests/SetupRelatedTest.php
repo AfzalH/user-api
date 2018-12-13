@@ -45,4 +45,10 @@ class SetupRelatedTest extends BaseTest
             'password' => 'wrongPassword'
         ])->assertStatus(401);
     }
+
+    /** @test */
+    public function canGetHostName()
+    {
+        $this->get(config('userApi.router_prefix') . 'test-get-host')->assertStatus(200);
+    }
 }

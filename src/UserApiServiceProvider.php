@@ -7,9 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class UserApiServiceProvider extends ServiceProvider
 {
-    /**
-     * Bootstrap the application services.
-     */
+
     public function boot()
     {
         if ($this->app->runningInConsole()) {
@@ -20,12 +18,9 @@ class UserApiServiceProvider extends ServiceProvider
         $this->routes();
     }
 
-    /**
-     * Register the application services.
-     */
     public function register()
     {
-        $this->app->singleton('userapi', function ($app) {
+        $this->app->singleton('userapi', function () {
             return new UserApi();
         });
         $this->mergeConfigFrom(__DIR__ . '/../config/userApi.php', 'userApi');

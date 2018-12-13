@@ -5,7 +5,7 @@ namespace AfzalH\UserApi;
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see AfzalH\UserApi\UserApi
+ * @see \AfzalH\UserApi\UserApi
  */
 class UserApiFacade extends Facade
 {

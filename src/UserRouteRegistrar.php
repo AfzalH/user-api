@@ -7,18 +7,10 @@ use Illuminate\Contracts\Routing\Registrar as Router;
 class UserRouteRegistrar
 {
     /**
-     * The router implementation.
-     *
      * @var \Illuminate\Contracts\Routing\Registrar
      */
     protected $router;
 
-    /**
-     * Create a new route registrar instance.
-     *
-     * @param  \Illuminate\Contracts\Routing\Registrar $router
-     * @return void
-     */
     public function __construct(Router $router)
     {
         $this->router = $router;
@@ -26,8 +18,13 @@ class UserRouteRegistrar
 
     public function all()
     {
-        $this->router->group(['middleware' => ['api']], function (Router $router) {
-            $router->get('user-test', function () {
+        $this->testRoutes();
+    }
+
+    public function testRoutes(): void
+    {
+        $this->router->group(['middleware' => config('userApi.router_middleware_test')], function (Router $router) {
+            $router->get('test-get-host', function () {
                 return 'Server running on: ' . gethostname();
             });
         });
