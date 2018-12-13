@@ -2,6 +2,7 @@
 
 namespace AfzalH\UserApi;
 
+use Illuminate\Routing\Router;
 use Illuminate\Support\ServiceProvider;
 
 class UserApiServiceProvider extends ServiceProvider
@@ -13,9 +14,10 @@ class UserApiServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__ . '/../config/userapi.php' => config_path('userapi.php'),
+                __DIR__ . '/../config/userApi.php' => config_path('userApi.php'),
             ], 'config');
         }
+        $this->routes();
     }
 
     /**
@@ -23,9 +25,21 @@ class UserApiServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('userapi', function($app){
+        $this->app->singleton('userapi', function ($app) {
             return new UserApi();
         });
-//        $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'userapi');
+        $this->mergeConfigFrom(__DIR__ . '/../config/userApi.php', 'userApi');
+    }
+
+    public function routes(): void
+    {
+        $options = [
+            'prefix' => config('userApi.router_prefix'),
+            'namespace' => '\AfzalH\UserApi'
+        ];
+        app('router')->group($options, function (Router $router) {
+            $userRouter = new UserRouteRegistrar($router);
+            $userRouter->all();
+        });
     }
 }
