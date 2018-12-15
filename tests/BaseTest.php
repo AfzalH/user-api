@@ -6,16 +6,20 @@ use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
+use Spatie\Permission\Models\Permission;
 use Tests\CreatesApplication;
 
 class BaseTest extends TestCase
 {
     use CreatesApplication, RefreshDatabase;
     protected $passportInstalled = false;
+    public $prefix;
 
     public function setUp()
     {
         parent::setUp();
+        $this->prefix = config('userApi.router_prefix');
+
         $this->defaultHeaders['X-Requested-With'] = 'XMLHttpRequest';
         $this->defaultHeaders['accept'] = 'application/json, text/plain, */*';
     }
@@ -43,12 +47,40 @@ class BaseTest extends TestCase
         while ($count--) {
             User::create([
                 'name' => $faker->name,
-                'email' => $faker->unique()->safeEmail(),
+                'email' => $faker->email,
                 'email_verified_at' => now(),
                 'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
                 'remember_token' => str_random(10),
             ]);
         }
+    }
+
+    /**
+     * @return User
+     */
+    public function getUserWithManageUsersPermission(): User
+    {
+        $user = $this->createAUser();
+        $permission = Permission::create(['name' => 'manage users']);
+        $user->givePermissionTo($permission);
+        return $user;
+    }
+
+    /**
+     * @param array $params
+     * @return User
+     */
+    protected function createAUser($params = [])
+    {
+        $faker = Factory::create();
+        $user = User::create([
+            'name' => $params['name'] ?? $faker->name,
+            'email' => $params['email'] ?? $faker->email,
+            'email_verified_at' => now(),
+            'password' => isset($params['password']) ? bcrypt($params['password']) : '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
+            'remember_token' => str_random(10),
+        ]);
+        return $user;
     }
 
     /** @test */

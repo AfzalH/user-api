@@ -1,0 +1,19 @@
+# 1. get token using username/password (* requires installation of afzalh/laravel-passport-skip-client)
+# Collect token for required calls
+POST https://lara.test/oauth/token
+accept: application/json, text/plain, */*
+content-type: application/json;charset=UTF-8
+
+{
+    "grant_type": "password",
+    "username": "afzal.csedu@gmail.com",
+    "password": "test"
+}
+
+###
+
+GET https://lara.test/api/v1/init-super-admin
+accept: application/json, text/plain, */*
+
+###
+

@@ -30,7 +30,7 @@ class UserApiServiceProvider extends ServiceProvider
     {
         $options = [
             'prefix' => config('userApi.router_prefix'),
-            'namespace' => '\AfzalH\UserApi'
+            'namespace' => '\AfzalH\UserApi\Controllers'
         ];
         app('router')->group($options, function (Router $router) {
             $userRouter = new UserRouteRegistrar($router);
