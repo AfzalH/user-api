@@ -50,14 +50,14 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function aUserWithoutAuthenticationCanNotCreateAnotherUser()
+    public function aGuestUserCanNotCreateAnotherUser()
     {
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',
             'email' => 'some.email@example.com',
             'password' => 'secret'
         ]);
-        $r->assertStatus(403);
+        $r->assertStatus(401);
     }
 
     /** @test */

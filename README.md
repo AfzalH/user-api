@@ -57,6 +57,9 @@ and finally
 ```
 composer dump-autoload
 ```
+## Objective
+Create required API for user management including CRUD operation, permission & role management, multiple organization/tenant support
+
 ## Usage
 
 TBD

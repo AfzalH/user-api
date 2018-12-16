@@ -42,6 +42,7 @@ class UserRouteRegistrar
     public function userRoutes()
     {
         $this->router->group(['middleware' => config('userApi.router_middleware_user')], function (Router $router) {
+            $router->post('users/assign-role', 'UserController@assignRole');
             $router->post('users', 'UserController@store');
         });
     }
