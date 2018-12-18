@@ -1,19 +1,32 @@
+# Create super admin user
+GET https://lara.test/api/v1/init-super-admin
+accept: application/json, text/plain, */*
+
 # 1. get token using username/password (* requires installation of afzalh/laravel-passport-skip-client)
 # Collect token for required calls
+###
+
 POST https://lara.test/oauth/token
 accept: application/json, text/plain, */*
 content-type: application/json;charset=UTF-8
 
 {
     "grant_type": "password",
-    "username": "afzal.csedu@gmail.com",
-    "password": "test"
+    "username": "afzal@srizon.com",
+    "password": "superSecret"
 }
 
 ###
 
-GET https://lara.test/api/v1/init-super-admin
+
+POST https://lara.test/api/v1/users
+authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6ImI4ZjgzMGY2YjMyOTk5NGMyZTE2ZmJkYjE2ZDRjZmExNDc1OTM1ZmU5NjNhYjVmNGJlMTY3N2Q4NTg1YTIzNDdjNTc2N2IwOTUyNjVlZjMxIn0.eyJhdWQiOiIyIiwianRpIjoiYjhmODMwZjZiMzI5OTk0YzJlMTZmYmRiMTZkNGNmYTE0NzU5MzVmZTk2M2FiNWY0YmUxNjc3ZDg1ODVhMjM0N2M1NzY3YjA5NTI2NWVmMzEiLCJpYXQiOjE1NDUxNDA3OTEsIm5iZiI6MTU0NTE0MDc5MSwiZXhwIjoxNTc2Njc2NzkxLCJzdWIiOiI1NSIsInNjb3BlcyI6WyIqIl19.BZQ1nCZm1iIw3mvJ0CpiI9yKn8mtHZ8tvaWKjX7kJk3RXahDbg5VWhW7b6F3oglhf2hXb-LWE6JCguU662-UrSObZ2VvYS_K_uoJ6WVk2yYStC1ymQF31gkJBnbM7swNAj0cESaMd-PTC1_K7Uon57Ht9ye39e_TlPiBgvgB6Z34BmDJNm0Sw8J9JcYeu8w-D6yyDh6O1DFZgHx1JuSlXB7xroT7BYwU9GLiWV0n1YJsbMhTszMfuUYzgKGMmi7QSLo51EK4gF91xEII_ugKUOK3lA557hrj1xfxEYBPcAFZ6JckLaW7Y-2daVV4P6c9WPDsXR4HCdwyEnO6yNpuOhqEMcTv1_MZDD5I3Fp3ayKYKkr7U3dkpk7chsnegTROivaA7sZIRijU6O_H4V-c8ZKw63djdE-RkhGlOAPuc-yivzopdn-TlPVHStpJUBOkCduf4WxJ5wQqeVkvyBpCnN50_N0cki0wSae6blscGegiekgJf4iNELeBIA5O8OMF3cvhgAjF_KEnQD8ziXFCawy_mNbWCwYqxyuyJXxBv487gf_Csfv9UnzM4CoNvP6R2OaIXO3vy0GWiygL6eGt0kQCRWAShdSc9FIFH_CbG1iPkv_cJ6G_e8vOYete751m1qObFsoHDNwGuugF8DdO0_NXMr62lfqpiP3C7w2gDSs
 accept: application/json, text/plain, */*
+content-type: application/json;charset=UTF-8
 
+{
+    "name": "John Doe",
+    "email": "John@srizon.com",
+    "password": "secret"
+}
 ###
-

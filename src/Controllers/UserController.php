@@ -3,84 +3,52 @@
 namespace AfzalH\UserApi\Controllers;
 
 
+use AfzalH\UserApi\Requests\StoreUser;
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Http\Request;
-use Spatie\Permission\Models\Permission;
-use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    public function createInitialSuperAdminUser()
+    // route:post users
+    public function store(StoreUser $request)
     {
-        $existing = User::whereEmail(config('userApi.initial_super_admin_email'))->first();
-        if ($existing) {
-            abort(422, 'User already exists');
-        }
-        $user = new User();
-        $user->email = config('userApi.initial_super_admin_email');
-        $user->name = config('userApi.initial_super_admin_name');
-        $user->password = config('userApi.initial_super_admin_password');
-        $id = $user->save();
-        $this->createSuperAdminRolesAndPermission();
-        $this->assignSuperAdminRole($user);
-        if ($id) {
-            return response($user->id, 201);
-        } else {
-            return response('Error Creating User', 422);
-        }
-    }
-
-    public function createSuperAdminRolesAndPermission()
-    {
-        /** @var Permission $permission */
-        $permission = Permission::create(['name' => 'manage users']);
-        /** @var Role $role */
-        $role = Role::create(['name' => 'super admin']);
-        $role->givePermissionTo($permission);
-    }
-
-    public function assignSuperAdminRole(User $user)
-    {
-        $user->assignRole('super admin');
-    }
-
-    public function store(Request $request)
-    {
-        $user = new User();
-        $user->email = $request->get('email');
-        $user->name = $request->get('name');
-        $user->password = bcrypt($request->get('password'));
-        $id = $user->save();
-        if ($id) {
-            return response($user->id, 201);
-        } else {
-            return response('Error Creating User', 422);
-        }
-    }
-
-    public function assignRole(Request $request)
-    {
-        $user = User::findOrFail($request->get('user_id'));
-        $role = $this->getRoleFromRequest($request);
-
-        $user->assignRole($role);
-
-        return response($user->id, 202);
+        $user = $this->createUser($request);
+        return $this->buildResponse($user);
     }
 
     /**
-     * @param Request $request
-     * @return \Spatie\Permission\Contracts\Role|Role
+     * @param StoreUser $request
+     * @return User
      */
-    public function getRoleFromRequest(Request $request)
+    public function createUser(StoreUser $request): User
     {
-        $role_id_or_name = $request->get('role');
-        if (is_numeric($role_id_or_name)) {
-            $role = Role::findById($role_id_or_name);
+        $user = new User();
+        $this->populateFields($request, $user);
+        $user->save();
+        return $user;
+    }
+
+    /**
+     * @param StoreUser $request
+     * @param User $user
+     */
+    public function populateFields(StoreUser $request, User $user): void
+    {
+        $user->email = $request->get('email');
+        $user->name = $request->get('name');
+        $user->password = bcrypt($request->get('password'));
+    }
+
+    /**
+     * @param User $user
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function buildResponse(User $user)
+    {
+        if ($user->id) {
+            return response($user->id, 201);
         } else {
-            $role = Role::findByName($role_id_or_name);
+            return response('Error Creating User', 422);
         }
-        return $role;
     }
 }

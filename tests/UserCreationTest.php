@@ -50,6 +50,99 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
+    public function userCreationMustNotPassWithEmptyName()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => '',
+            'email' => 'some.other.email@example.com',
+            'password' => 'secret'
+        ]);
+        $r->assertStatus(422);
+
+
+    }
+
+    /** @test */
+    public function userCreationMustNotPassWithDuplicateEmail()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'some.email@example.com',
+            'password' => 'secret'
+        ]);
+        $r->assertStatus(201);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'some.email@example.com',
+            'password' => 'secret'
+        ]);
+        $r->assertStatus(422);
+    }
+
+    /** @test */
+    public function userCreationMustNotPassWithEmptyEmail()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => '',
+            'password' => 'secret'
+        ]);
+        $r->assertStatus(422);
+    }
+
+    /** @test */
+    public function userCreationMustNotPassWithInvalidEmail()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'sdfsdf',
+            'password' => 'secret'
+        ]);
+        $r->assertStatus(422);
+    }
+
+    /** @test */
+    public function userCreationMustNotPassWithEmptyPassword()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'sdfsdf@srizon.com',
+            'password' => ''
+        ]);
+        $r->assertStatus(422);
+    }
+
+    /** @test */
+    public function userCreationMustNotPassWithSmallPassword()
+    {
+        $user = $this->getUserWithManageUsersPermission();
+        Passport::actingAs($user);
+
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'sdfsdf@srizon.com',
+            'password' => 'abc'
+        ]);
+        $r->assertStatus(422);
+    }
+
+    /** @test */
     public function aGuestUserCanNotCreateAnotherUser()
     {
         $r = $this->post($this->prefix . 'users', [

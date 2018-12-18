@@ -35,14 +35,14 @@ class UserRouteRegistrar
     public function setupRoutes()
     {
         $this->router->group(['middleware' => config('userApi.router_middleware_setup')], function (Router $router) {
-            $router->get('init-super-admin', 'UserController@createInitialSuperAdminUser');
+            $router->get('init-super-admin', 'InitUserController@createInitialSuperAdminUser');
         });
     }
 
     public function userRoutes()
     {
         $this->router->group(['middleware' => config('userApi.router_middleware_user')], function (Router $router) {
-            $router->post('users/assign-role', 'UserController@assignRole');
+            $router->post('users/assign-role', 'UserRoleController@assignRole');
             $router->post('users', 'UserController@store');
         });
     }
