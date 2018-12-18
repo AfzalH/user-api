@@ -2,13 +2,11 @@
 
 namespace AfzalH\UserApi\Controllers;
 
-
-use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
-class UserRoleController extends Controller
+class UserRoleController extends BaseController
 {
     // route:post users/assign-role
     public function assignRole(Request $request)
@@ -21,10 +19,6 @@ class UserRoleController extends Controller
         return response($user->id, 202);
     }
 
-    /**
-     * @param Request $request
-     * @return \Spatie\Permission\Contracts\Role|Role
-     */
     public function getRoleFromRequest(Request $request)
     {
         $role_id_or_name = $request->get('role');

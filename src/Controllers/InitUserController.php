@@ -2,12 +2,11 @@
 
 namespace AfzalH\UserApi\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class InitUserController extends Controller
+class InitUserController extends BaseController
 {
     // route:get init-super-admin
     public function createInitialSuperAdminUser()
@@ -15,7 +14,7 @@ class InitUserController extends Controller
         $this->checkIfAlreadyCreated();
         $user = $this->createUser();
         $this->assignRole($user);
-        return $this->buildResponse($user);
+        return $this->buildCreationResponse($user);
     }
 
     public function checkIfAlreadyCreated(): void
@@ -26,20 +25,14 @@ class InitUserController extends Controller
         }
     }
 
-    /**
-     * @return User
-     */
     public function createUser(): User
     {
         $user = new User();
-        $this->populateFields($user);
+        $this->populateFieldsFromConfig($user);
         $user->save();
         return $user;
     }
 
-    /**
-     * @param User $user
-     */
     public function assignRole(User $user): void
     {
         $this->createSuperAdminRolesAndPermission();
@@ -60,23 +53,7 @@ class InitUserController extends Controller
         $user->assignRole('super admin');
     }
 
-    /**
-     * @param User $user
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function buildResponse(User $user)
-    {
-        if ($user->id) {
-            return response($user->id, 201);
-        } else {
-            return response('Error Creating User', 422);
-        }
-    }
-
-    /**
-     * @param User $user
-     */
-    public function populateFields(User $user): void
+    public function populateFieldsFromConfig(User $user): void
     {
         $user->email = config('userApi.initial_super_admin_email');
         $user->name = config('userApi.initial_super_admin_name');
