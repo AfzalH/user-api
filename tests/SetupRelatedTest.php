@@ -7,7 +7,7 @@ use App\User;
 class SetupRelatedTest extends BaseTest
 {
     /** @test */
-    public function testUserCanBeCreated()
+    public function test_user_can_be_created()
     {
         $this->createRandomUsers(12);
         $count = User::count();
@@ -15,7 +15,7 @@ class SetupRelatedTest extends BaseTest
     }
 
     /** @test */
-    public function adminUserCanLogIn()
+    public function admin_user_can_log_in()
     {
         $this->artisan('passport:install');
         $this->createAdminUser();
@@ -28,13 +28,13 @@ class SetupRelatedTest extends BaseTest
     }
 
     /** @test */
-    public function canGetHostName()
+    public function can_get_host_name()
     {
         $this->get(config('userApi.router_prefix') . 'test-get-host')->assertStatus(200);
     }
 
     /** @test */
-    public function canReadRequiredConfig()
+    public function can_read_required_config()
     {
         $this->assertGreaterThan(1, strlen(config('userApi.initial_super_admin_email')));
         $this->assertGreaterThan(0, strlen(config('userApi.initial_super_admin_name')));

@@ -20,7 +20,7 @@ class UserPermissionTest extends BaseTest
     }
 
     /** @test */
-    public function aUserWithManageUsersPermissionCanAssignARoleByRoleID()
+    public function a_user_with_manage_users_permission_can_assign_a_role_by_role_id()
     {
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
@@ -38,7 +38,7 @@ class UserPermissionTest extends BaseTest
     }
 
     /** @test */
-    public function aUserWithManageUsersPermissionCanAssignARoleByRoleName()
+    public function a_user_with_manage_users_permission_can_assign_a_role_by_role_name()
     {
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
@@ -56,7 +56,7 @@ class UserPermissionTest extends BaseTest
     }
 
     /** @test */
-    public function aUserWithoutManageUsersPermissionCanNotAssignARole()
+    public function a_user_without_manage_users_permission_can_not_assign_a_role()
     {
         $randomUser = $this->createAUser();
         Passport::actingAs($randomUser);
@@ -74,7 +74,7 @@ class UserPermissionTest extends BaseTest
     }
 
     /** @test */
-    public function aGuestCanNotAssignARole()
+    public function a_guest_can_not_assign_a_role()
     {
         $user = $this->createAUser();
         $role = Role::create(['name' => 'manager']);
