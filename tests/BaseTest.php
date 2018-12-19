@@ -84,7 +84,7 @@ class BaseTest extends TestCase
     }
 
     /** @test */
-    public function suppressWarning()
+    public function suppress_warning()
     {
         $this->assertTrue(true);
     }

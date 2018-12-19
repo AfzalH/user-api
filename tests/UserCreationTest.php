@@ -18,7 +18,7 @@ class UserCreationTest extends BaseTest
     /** @test
      * @throws \Exception
      */
-    public function initialSuperAdminCanBeCreatedAndHasSuperAdminRolesAndUserManagementPermission()
+    public function initial_super_admin_can_be_created_and_has_super_admin_roles_and_user_management_permission()
     {
         $r = $this->get($this->prefix . 'init-super-admin');
         $r->assertStatus(201);
@@ -29,14 +29,14 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function initialSuperAdminCanNotBeCreatedMoreThanOnce()
+    public function initial_super_admin_can_not_be_created_more_than_once()
     {
         $this->get($this->prefix . 'init-super-admin')->assertStatus(201);
         $this->get($this->prefix . 'init-super-admin')->assertStatus(422);
     }
 
     /** @test */
-    public function aUserWithNecessaryPermissionCanCreateAnotherUser()
+    public function a_user_with_necessary_permission_can_create_another_user()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -50,7 +50,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithEmptyName()
+    public function user_creation_must_not_pass_with_empty_name()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -66,7 +66,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithDuplicateEmail()
+    public function user_creation_must_not_pass_with_duplicate_email()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -87,7 +87,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithEmptyEmail()
+    public function user_creation_must_not_pass_with_empty_email()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -101,7 +101,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithInvalidEmail()
+    public function user_creation_must_not_pass_with_invalid_email()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -115,7 +115,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithEmptyPassword()
+    public function user_creation_must_not_pass_with_empty_password()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -129,7 +129,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function userCreationMustNotPassWithSmallPassword()
+    public function user_creation_must_not_pass_with_small_password()
     {
         $user = $this->getUserWithManageUsersPermission();
         Passport::actingAs($user);
@@ -143,7 +143,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function aGuestUserCanNotCreateAnotherUser()
+    public function a_guest_user_can_not_create_another_user()
     {
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',
@@ -154,7 +154,7 @@ class UserCreationTest extends BaseTest
     }
 
     /** @test */
-    public function aUserWithoutProperPermissionCanNotCreateAnotherUser()
+    public function a_user_without_proper_permission_can_not_create_another_user()
     {
         $user = $this->createAUser();
         Passport::actingAs($user);
