@@ -18,14 +18,14 @@ class UserCreationTest extends BaseTest
     /** @test
      * @throws \Exception
      */
-    public function initial_super_admin_can_be_created_and_has_super_admin_roles_and_user_management_permission()
+    public function initial_super_admin_can_be_created_and_has_super_admin_roles_and_super_user_management_permission()
     {
         $r = $this->get($this->prefix . 'init-super-admin');
         $r->assertStatus(201);
 
         $super = User::whereEmail($this->superEmail)->firstOrFail();
         $this->assertTrue($super->hasRole('super admin'));
-        $this->assertTrue($super->hasPermissionTo('manage users'));
+        $this->assertTrue($super->hasPermissionTo('super manage users'));
     }
 
     /** @test */
@@ -156,7 +156,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function a_user_without_proper_permission_can_not_create_another_user()
     {
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [

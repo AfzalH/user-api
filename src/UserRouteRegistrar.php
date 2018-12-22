@@ -37,6 +37,9 @@ class UserRouteRegistrar
         $this->router->group(['middleware' => config('userApi.router_middleware_setup')], function (Router $router) {
             $router->get('init-super-admin', 'InitUserController@createInitialSuperAdminUser');
         });
+        $this->router->group(['middleware' => config('userApi.router_middleware_setup_permission')], function (Router $router) {
+            $router->get('init-permissions-and-roles', 'InitPermissionController@createInitialRolesAndPermissions');
+        });
     }
 
     public function userRoutes()

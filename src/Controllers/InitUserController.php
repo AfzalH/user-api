@@ -42,7 +42,7 @@ class InitUserController extends BaseController
     public function createSuperAdminRolesAndPermission()
     {
         /** @var Permission $permission */
-        $permission = Permission::findOrCreate('manage users');
+        $permission = Permission::findOrCreate('super manage users');
         /** @var Role $role */
         $role = Role::findOrCreate('super admin');
         $role->givePermissionTo($permission);

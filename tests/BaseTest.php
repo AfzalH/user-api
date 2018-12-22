@@ -7,6 +7,7 @@ use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\CreatesApplication;
 
 class BaseTest extends TestCase
@@ -55,14 +56,19 @@ class BaseTest extends TestCase
         }
     }
 
-    /**
-     * @return User
-     */
     public function getUserWithManageUsersPermission(): User
     {
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $permission = Permission::create(['name' => 'manage users']);
         $user->givePermissionTo($permission);
+        return $user;
+    }
+
+    public function getASuperAdmin(): User
+    {
+        $user = $this->getAUser();
+        $role = Role::create(['name' => 'super admin']);
+        $user->assignRole($role);
         return $user;
     }
 
@@ -70,7 +76,7 @@ class BaseTest extends TestCase
      * @param array $params
      * @return User
      */
-    protected function createAUser($params = [])
+    protected function getAUser($params = [])
     {
         $faker = Factory::create();
         $user = User::create([

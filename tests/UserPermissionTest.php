@@ -26,7 +26,7 @@ class UserPermissionTest extends BaseTest
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
         $r = $this->post($this->prefix . 'users/assign-role', [
             'user_id' => $user->id,
@@ -44,7 +44,7 @@ class UserPermissionTest extends BaseTest
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
         $r = $this->post($this->prefix . 'users/assign-role', [
             'user_id' => $user->id,
@@ -59,10 +59,10 @@ class UserPermissionTest extends BaseTest
     /** @test */
     public function a_user_without_manage_users_permission_can_not_assign_a_role()
     {
-        $randomUser = $this->createAUser();
+        $randomUser = $this->getAUser();
         Passport::actingAs($randomUser);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
         $r = $this->post($this->prefix . 'users/assign-role', [
             'user_id' => $user->id,
@@ -77,7 +77,7 @@ class UserPermissionTest extends BaseTest
     /** @test */
     public function a_guest_can_not_assign_a_role()
     {
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
         $r = $this->post($this->prefix . 'users/assign-role', [
             'user_id' => $user->id,
@@ -97,7 +97,7 @@ class UserPermissionTest extends BaseTest
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
         $permission->refresh();
         $r = $this->post($this->prefix . 'users/assign-permission', [
@@ -118,7 +118,7 @@ class UserPermissionTest extends BaseTest
         $admin = $this->getUserWithManageUsersPermission();
         Passport::actingAs($admin);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
         $permission->refresh();
         $r = $this->post($this->prefix . 'users/assign-permission', [
@@ -136,10 +136,10 @@ class UserPermissionTest extends BaseTest
      */
     public function a_user_without_manage_users_permission_cannot_assign_a_permission_by_permission_name()
     {
-        $actor = $this->createAUser();
+        $actor = $this->getAUser();
         Passport::actingAs($actor);
 
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
         $permission->refresh();
         $r = $this->post($this->prefix . 'users/assign-permission', [
@@ -157,7 +157,7 @@ class UserPermissionTest extends BaseTest
      */
     public function a_guest_cannot_assign_a_permission_by_permission_name()
     {
-        $user = $this->createAUser();
+        $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
         $permission->refresh();
         $r = $this->post($this->prefix . 'users/assign-permission', [
