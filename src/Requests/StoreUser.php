@@ -16,7 +16,7 @@ class StoreUser extends FormRequest
     {
         /** @var User $authUser */
         $authUser = \Auth::user();
-        return ($authUser->can('create users') || $authUser->can('manage users'));
+        return ($authUser->can('create users') or $authUser->can('manage users'));
     }
 
     /**
