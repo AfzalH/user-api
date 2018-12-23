@@ -80,4 +80,35 @@ class RoleAssignmentTest extends BaseTest
         $user->refresh();
         $this->assertFalse($user->hasRole($role->id));
     }
+
+    /** @test */
+    public function user_with_permission_can_remove_role()
+    {
+        $admin = $this->getUserWithSuperManageUsersPermission();
+        Passport::actingAs($admin);
+
+        $user = $this->getAUser();
+        $role = Role::create(['name' => 'manager']);
+
+        $r = $this->post($this->prefix . 'users/assign-role', [
+            'user_id' => $user->id,
+            'role' => $role->id
+        ]);
+        $r->assertStatus(202);
+
+        $user->refresh();
+
+        $this->assertTrue($user->hasRole($role));
+
+        $r = $this->post($this->prefix . 'users/remove-role', [
+            'user_id' => $user->id,
+            'role' => $role->id
+        ]);
+        $r->assertStatus(202);
+
+        $user->refresh();
+        $this->assertFalse($user->hasRole($role));
+
+    }
+
 }

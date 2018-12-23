@@ -93,4 +93,36 @@ class PermissionAssignmentTest extends BaseTest
         $user->refresh();
         $this->assertFalse($user->hasPermissionTo($permission->name));
     }
+
+    /** @test
+     * @throws \Exception
+     */
+    public function user_with_permission_can_revoke_permission()
+    {
+        $admin = $this->getUserWithSuperManageUsersPermission();
+        Passport::actingAs($admin);
+
+        $user = $this->getAUser();
+        $permission = Permission::create(['name' => 'manage all']);
+
+        $r = $this->post($this->prefix . 'users/assign-permission', [
+            'user_id' => $user->id,
+            'permission' => $permission->id
+        ]);
+        $r->assertStatus(202);
+
+        $user->refresh();
+
+        $this->assertTrue($user->hasPermissionTo($permission));
+
+        $r = $this->post($this->prefix . 'users/revoke-permission', [
+            'user_id' => $user->id,
+            'permission' => $permission->id
+        ]);
+        $r->assertStatus(202);
+
+        $user->refresh();
+        $this->assertFalse($user->hasPermissionTo($permission));
+
+    }
 }

@@ -46,7 +46,9 @@ class UserRouteRegistrar
     {
         $this->router->group(['middleware' => config('userApi.router_middleware_user')], function (Router $router) {
             $router->post('users/assign-role', 'UserRoleController@assignRole');
+            $router->post('users/remove-role', 'UserRoleController@removeRole');
             $router->post('users/assign-permission', 'UserRoleController@assignPermission');
+            $router->post('users/revoke-permission', 'UserRoleController@revokePermission');
             $router->post('users', 'UserController@store');
         });
     }

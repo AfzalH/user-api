@@ -45,4 +45,26 @@ class UserRoleController extends BaseController
         $role = is_numeric($permission_id_or_name) ? Permission::findById($permission_id_or_name) : Permission::findByName($permission_id_or_name);
         return $role;
     }
+
+    // route:post users/remove-role
+    public function removeRole(Request $request)
+    {
+        $user = User::findOrFail($request->get('user_id'));
+        $role = $this->getRoleFromRequest($request);
+
+        $user->removeRole($role);
+
+        return response($user->id, 202);
+    }
+
+    // route:post users/revoke-permission
+    public function revokePermission(Request $request)
+    {
+        $user = User::findOrFail($request->get('user_id'));
+        $permission = $this->getPermissionFromRequest($request);
+
+        $user->revokePermissionTo($permission);
+
+        return response($user->id, 202);
+    }
 }
