@@ -56,10 +56,10 @@ class BaseTest extends TestCase
         }
     }
 
-    public function getUserWithManageUsersPermission(): User
+    public function getUserWithSuperManageUsersPermission(): User
     {
         $user = $this->getAUser();
-        $permission = Permission::create(['name' => 'manage users']);
+        $permission = Permission::create(['name' => 'super manage users']);
         $user->givePermissionTo($permission);
         return $user;
     }

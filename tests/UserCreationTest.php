@@ -38,7 +38,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function a_user_with_necessary_permission_can_create_another_user()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -52,7 +52,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_empty_name()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -68,7 +68,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_duplicate_email()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -89,7 +89,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_empty_email()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -103,7 +103,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_invalid_email()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -117,7 +117,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_empty_password()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
@@ -131,7 +131,7 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function user_creation_must_not_pass_with_small_password()
     {
-        $user = $this->getUserWithManageUsersPermission();
+        $user = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
         $r = $this->post($this->prefix . 'users', [
