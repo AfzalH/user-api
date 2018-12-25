@@ -5,6 +5,9 @@ namespace AfzalH\UserApi\Controllers;
 use AfzalH\UserApi\Requests\StoreUser;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class BaseController extends Controller
 {
@@ -24,12 +27,28 @@ class BaseController extends Controller
         $user->password = bcrypt($request->get('password'));
     }
 
-    public function buildCreationResponse(User $user)
+    public function buildCreationResponse($object)
     {
-        if ($user->id) {
-            return response($user->id, 201);
+        if ($object->id) {
+            return response($object->id, 201);
         } else {
-            return response('Error Creating User', 422);
+            return response('Error Creating Object', 422);
         }
+    }
+
+    public function getRoleFromRequest(Request $request)
+    {
+        $role_id_or_name = $request->get('role');
+        /** @noinspection PhpParamsInspection */
+        $role = is_numeric($role_id_or_name) ? Role::findById($role_id_or_name) : Role::findByName($role_id_or_name);
+        return $role;
+    }
+
+    public function getPermissionFromRequest(Request $request)
+    {
+        $permission_id_or_name = $request->get('permission');
+        /** @noinspection PhpParamsInspection */
+        $role = is_numeric($permission_id_or_name) ? Permission::findById($permission_id_or_name) : Permission::findByName($permission_id_or_name);
+        return $role;
     }
 }

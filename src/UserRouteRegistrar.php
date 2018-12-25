@@ -50,6 +50,9 @@ class UserRouteRegistrar
             $router->post('users/assign-permission', 'UserRoleController@assignPermission');
             $router->post('users/revoke-permission', 'UserRoleController@revokePermission');
             $router->post('users', 'UserController@store');
+            $router->post('roles/assign-permission', 'RoleController@assignPermission');
+            $router->post('roles/revoke-permission', 'RoleController@revokePermission');
+            $router->post('roles', 'RoleController@store');
         });
     }
 }

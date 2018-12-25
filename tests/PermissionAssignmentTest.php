@@ -5,6 +5,7 @@ namespace AfzalH\UserApi\Tests;
 
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class PermissionAssignmentTest extends BaseTest
 {
@@ -37,7 +38,7 @@ class PermissionAssignmentTest extends BaseTest
     /** @test
      * @throws \Exception
      */
-    public function a_user_with_manage_users_permission_can_assign_a_permission_by_permission_id()
+    public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_user_by_permission_id()
     {
         $admin = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
@@ -58,7 +59,7 @@ class PermissionAssignmentTest extends BaseTest
     /** @test
      * @throws \Exception
      */
-    public function a_user_without_manage_users_permission_cannot_assign_a_permission_by_permission_name()
+    public function a_user_without_manage_users_permission_cannot_assign_a_permission_to_a_user_by_permission_name()
     {
         $actor = $this->getAUser();
         Passport::actingAs($actor);
@@ -97,7 +98,7 @@ class PermissionAssignmentTest extends BaseTest
     /** @test
      * @throws \Exception
      */
-    public function user_with_permission_can_revoke_permission()
+    public function user_with_permission_can_revoke_permission_from_a_user()
     {
         $admin = $this->getUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
@@ -123,6 +124,61 @@ class PermissionAssignmentTest extends BaseTest
 
         $user->refresh();
         $this->assertFalse($user->hasPermissionTo($permission));
+
+    }
+
+    /** @test
+     * @throws \Exception
+     */
+    public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_role()
+    {
+        Passport::actingAs($this->getUserWithSuperManageUsersPermission());
+
+        $role = Role::create(['name' => 'manager']);
+        $permission = Permission::create(['name' => 'manage things']);
+
+        $r = $this->post($this->prefix . 'roles/assign-permission', [
+            'role' => $role->id,
+            'permission' => $permission->id
+        ]);
+        $r->assertStatus(202);
+
+        $role->refresh();
+        $this->assertTrue($role->hasPermissionTo($permission->name));
+
+        $user = $this->getAUser();
+        $user->assignRole($role);
+        $user->refresh();
+
+        $this->assertTrue($user->hasPermissionTo('manage things'));
+    }
+
+    /** @test
+     * @throws \Exception
+     */
+    public function a_user_with_manage_users_permission_can_revoke_a_permission_from_a_role()
+    {
+        $this->a_user_with_manage_users_permission_can_assign_a_permission_to_a_role();
+        /** @var Role $role */
+        $role = Role::findOrCreate('manager');
+        /** @var Permission $permission */
+        $permission = Permission::findOrCreate('manage things');
+        $user = $this->getAUser();
+        $user->assignRole('manager');
+        $user->refresh();
+        $this->assertTrue($user->hasPermissionTo('manage things'));
+
+        $r = $this->post($this->prefix . 'roles/revoke-permission', [
+            'role' => $role->id,
+            'permission' => $permission->id
+        ]);
+
+        $r->assertStatus(202);
+
+        $user->refresh();
+        $this->assertFalse($user->hasPermissionTo('manage things'));
+        $role->refresh();
+        $this->assertFalse($role->hasPermissionTo('manage things'));
 
     }
 }
