@@ -10,7 +10,7 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\CreatesApplication;
 
-class BaseTest extends TestCase
+class Base extends TestCase
 {
     use CreatesApplication, RefreshDatabase;
     protected $passportInstalled = false;
@@ -25,38 +25,7 @@ class BaseTest extends TestCase
         $this->defaultHeaders['accept'] = 'application/json, text/plain, */*';
     }
 
-    public function createUsers()
-    {
-        $this->createAdminUser();
-        $this->createRandomUsers();
-    }
-
-    protected function createAdminUser()
-    {
-        User::create([
-            'name' => 'Afzal Hossain',
-            'email' => 'afzal.csedu@gmail.com',
-            'email_verified_at' => now(),
-            'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-            'remember_token' => str_random(10),
-        ]);
-    }
-
-    protected function createRandomUsers($count = 10)
-    {
-        $faker = Factory::create();
-        while ($count--) {
-            User::create([
-                'name' => $faker->name,
-                'email' => $faker->email,
-                'email_verified_at' => now(),
-                'password' => '$2y$10$TKh8H1.PfQx37YgCzwiKb.KjNyWgaHb9cbcoQgdIVFlYg7B77UdFm', // secret
-                'remember_token' => str_random(10),
-            ]);
-        }
-    }
-
-    public function getUserWithSuperManageUsersPermission(): User
+    public function getAUserWithSuperManageUsersPermission(): User
     {
         $user = $this->getAUser();
         $permission = Permission::create(['name' => 'super manage users']);
@@ -89,9 +58,13 @@ class BaseTest extends TestCase
         return $user;
     }
 
-    /** @test */
-    public function suppress_warning()
+    public function createSampleUserViaRestAPI(): \Illuminate\Foundation\Testing\TestResponse
     {
-        $this->assertTrue(true);
+        $r = $this->post($this->prefix . 'users', [
+            'name' => 'Some Name',
+            'email' => 'some.email@example.com',
+            'password' => 'secret'
+        ]);
+        return $r;
     }
 }

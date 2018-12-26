@@ -6,7 +6,7 @@ use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionSetupTest extends BaseTest
+class PermissionSetupTest extends Base
 {
     /** @test */
     public function super_admin_can_create_initial_permissions_and_roles()

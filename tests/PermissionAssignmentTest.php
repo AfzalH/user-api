@@ -7,7 +7,7 @@ use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
-class PermissionAssignmentTest extends BaseTest
+class PermissionAssignmentTest extends Base
 {
     public function setUp()
     {
@@ -19,7 +19,7 @@ class PermissionAssignmentTest extends BaseTest
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_by_permission_name()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();
@@ -40,7 +40,7 @@ class PermissionAssignmentTest extends BaseTest
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_user_by_permission_id()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();
@@ -100,7 +100,7 @@ class PermissionAssignmentTest extends BaseTest
      */
     public function user_with_permission_can_revoke_permission_from_a_user()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();
@@ -132,7 +132,7 @@ class PermissionAssignmentTest extends BaseTest
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_role()
     {
-        Passport::actingAs($this->getUserWithSuperManageUsersPermission());
+        Passport::actingAs($this->getAUserWithSuperManageUsersPermission());
 
         $role = Role::create(['name' => 'manager']);
         $permission = Permission::create(['name' => 'manage things']);

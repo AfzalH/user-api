@@ -6,12 +6,12 @@ namespace AfzalH\UserApi\Tests;
 
 use Laravel\Passport\Passport;
 
-class RoleCreationTest extends BaseTest
+class RoleCRUDTest extends Base
 {
     /** @test */
     public function super_admin_can_create_roles()
     {
-        $super = $this->getUserWithSuperManageUsersPermission();
+        $super = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($super);
         $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
         $r->assertStatus(201);

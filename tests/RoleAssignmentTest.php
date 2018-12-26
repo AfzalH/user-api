@@ -5,7 +5,7 @@ namespace AfzalH\UserApi\Tests;
 use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Role;
 
-class RoleAssignmentTest extends BaseTest
+class RoleAssignmentTest extends Base
 {
     public function setUp()
     {
@@ -15,7 +15,7 @@ class RoleAssignmentTest extends BaseTest
     /** @test */
     public function a_user_with_manage_users_permission_can_assign_a_role_by_role_id()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();
@@ -33,7 +33,7 @@ class RoleAssignmentTest extends BaseTest
     /** @test */
     public function a_user_with_manage_users_permission_can_assign_a_role_by_role_name()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();
@@ -84,7 +84,7 @@ class RoleAssignmentTest extends BaseTest
     /** @test */
     public function user_with_permission_can_remove_role()
     {
-        $admin = $this->getUserWithSuperManageUsersPermission();
+        $admin = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($admin);
 
         $user = $this->getAUser();

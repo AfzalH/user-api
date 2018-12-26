@@ -5,7 +5,7 @@ namespace AfzalH\UserApi\Tests;
 use App\User;
 use Laravel\Passport\Passport;
 
-class UserCreationTest extends BaseTest
+class UserCreationTest extends Base
 {
     public $superEmail;
 
@@ -38,118 +38,17 @@ class UserCreationTest extends BaseTest
     /** @test */
     public function a_user_with_necessary_permission_can_create_another_user()
     {
-        $user = $this->getUserWithSuperManageUsersPermission();
+        $user = $this->getAUserWithSuperManageUsersPermission();
         Passport::actingAs($user);
 
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'some.email@example.com',
-            'password' => 'secret'
-        ]);
+        $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(201);
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_empty_name()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => '',
-            'email' => 'some.other.email@example.com',
-            'password' => 'secret'
-        ]);
-        $r->assertStatus(422);
-
-
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_duplicate_email()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'some.email@example.com',
-            'password' => 'secret'
-        ]);
-        $r->assertStatus(201);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'some.email@example.com',
-            'password' => 'secret'
-        ]);
-        $r->assertStatus(422);
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_empty_email()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => '',
-            'password' => 'secret'
-        ]);
-        $r->assertStatus(422);
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_invalid_email()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'sdfsdf',
-            'password' => 'secret'
-        ]);
-        $r->assertStatus(422);
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_empty_password()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'sdfsdf@srizon.com',
-            'password' => ''
-        ]);
-        $r->assertStatus(422);
-    }
-
-    /** @test */
-    public function user_creation_must_not_pass_with_small_password()
-    {
-        $user = $this->getUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
-
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'sdfsdf@srizon.com',
-            'password' => 'abc'
-        ]);
-        $r->assertStatus(422);
     }
 
     /** @test */
     public function a_guest_user_can_not_create_another_user()
     {
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'some.email@example.com',
-            'password' => 'secret'
-        ]);
+        $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(401);
     }
 
@@ -159,11 +58,7 @@ class UserCreationTest extends BaseTest
         $user = $this->getAUser();
         Passport::actingAs($user);
 
-        $r = $this->post($this->prefix . 'users', [
-            'name' => 'Some Name',
-            'email' => 'some.email@example.com',
-            'password' => 'secret'
-        ]);
+        $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(403);
     }
 

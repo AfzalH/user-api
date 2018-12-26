@@ -2,31 +2,8 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use App\User;
-
-class SetupRelatedTest extends BaseTest
+class SetupRelatedTest extends Base
 {
-    /** @test */
-    public function test_user_can_be_created()
-    {
-        $this->createRandomUsers(12);
-        $count = User::count();
-        $this->assertEquals(12, $count);
-    }
-
-    /** @test */
-    public function admin_user_can_log_in()
-    {
-        $this->artisan('passport:install');
-        $this->createAdminUser();
-        $res = $this->post('oauth/token', [
-            'grant_type' => 'password',
-            'username' => 'afzal.csedu@gmail.com',
-            'password' => 'secret'
-        ]);
-        $res->assertStatus(200);
-    }
-
     /** @test */
     public function can_get_host_name()
     {
