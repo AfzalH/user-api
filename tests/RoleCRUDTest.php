@@ -4,8 +4,6 @@
 namespace AfzalH\UserApi\Tests;
 
 
-use Laravel\Passport\Passport;
-
 class RoleCRUDTest extends Base
 {
     /** @test */
@@ -35,7 +33,12 @@ class RoleCRUDTest extends Base
     public function super_admin_or_admin_can_delete_roles()
     {
         $this->becomeSuperUserManager();
-        $this->assertFalse(false);
+        $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
+        $r->assertStatus(201);
+
+        $r = $this->delete($this->prefix . 'roles', ['role' => 'HR Manager']);
+        $r->assertStatus(200);
+
     }
 
 

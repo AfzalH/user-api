@@ -22,6 +22,7 @@ class RoleController extends BaseController
         $role->givePermissionTo($permission);
         return response($role->id, 202);
     }
+
     // route:post roles/revoke-permission
     public function revokePermission(Request $request)
     {
@@ -29,6 +30,16 @@ class RoleController extends BaseController
         $permission = $this->getPermissionFromRequest($request);
         $role->revokePermissionTo($permission);
         return response($role->id, 202);
+    }
+
+    // route:delete roles
+    public function delete(Request $request)
+    {
+        $role = $this->getRoleFromRequest($request);
+        $role->delete();
+
+        return response(['message' => 'deleted'], 200);
+
     }
 
 }
