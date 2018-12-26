@@ -6,6 +6,7 @@ use App\User;
 use Faker\Factory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\TestCase;
+use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use Tests\CreatesApplication;
@@ -41,11 +42,7 @@ class Base extends TestCase
         return $user;
     }
 
-    /**
-     * @param array $params
-     * @return User
-     */
-    protected function getAUser($params = [])
+    protected function getAUser($params = []): User
     {
         $faker = Factory::create();
         $user = User::create([
@@ -66,5 +63,11 @@ class Base extends TestCase
             'password' => 'secret'
         ]);
         return $r;
+    }
+
+    public function becomeSuperUserManager(): void
+    {
+        $super = $this->getAUserWithSuperManageUsersPermission();
+        Passport::actingAs($super);
     }
 }

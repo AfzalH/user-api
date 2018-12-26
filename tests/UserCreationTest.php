@@ -38,8 +38,7 @@ class UserCreationTest extends Base
     /** @test */
     public function a_user_with_necessary_permission_can_create_another_user()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(201);

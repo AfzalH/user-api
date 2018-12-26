@@ -18,8 +18,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_empty_name()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->post($this->prefix . 'users', [
             'name' => '',
@@ -32,8 +31,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_duplicate_email()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(201);
@@ -45,8 +43,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_empty_email()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',
@@ -59,8 +56,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_invalid_email()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',
@@ -73,8 +69,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_empty_password()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',
@@ -87,8 +82,7 @@ class UserValidationTest extends Base
     /** @test */
     public function user_creation_must_not_pass_with_small_password()
     {
-        $user = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($user);
+        $this->becomeSuperUserManager();
 
         $r = $this->post($this->prefix . 'users', [
             'name' => 'Some Name',

@@ -11,8 +11,7 @@ class RoleCRUDTest extends Base
     /** @test */
     public function super_admin_can_create_roles()
     {
-        $super = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($super);
+        $this->becomeSuperUserManager();
         $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
         $r->assertStatus(201);
         // duplicate should produce error
@@ -30,6 +29,13 @@ class RoleCRUDTest extends Base
         Passport::actingAs($this->getAUser());
         $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
         $r->assertStatus(403);
+    }
+
+    /** @test */
+    public function super_admin_or_admin_can_delete_roles()
+    {
+        $this->becomeSuperUserManager();
+        $this->assertFalse(false);
     }
 
 

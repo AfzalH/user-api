@@ -15,8 +15,7 @@ class RoleAssignmentTest extends Base
     /** @test */
     public function a_user_with_manage_users_permission_can_assign_a_role_by_role_id()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
+        $this->becomeSuperUserManager();
 
         $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
@@ -33,8 +32,7 @@ class RoleAssignmentTest extends Base
     /** @test */
     public function a_user_with_manage_users_permission_can_assign_a_role_by_role_name()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
+        $this->becomeSuperUserManager();
 
         $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);
@@ -84,8 +82,7 @@ class RoleAssignmentTest extends Base
     /** @test */
     public function user_with_permission_can_remove_role()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
+        $this->becomeSuperUserManager();
 
         $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);

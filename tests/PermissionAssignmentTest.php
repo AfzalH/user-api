@@ -19,9 +19,7 @@ class PermissionAssignmentTest extends Base
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_by_permission_name()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
-
+        $this->becomeSuperUserManager();
         $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
         $permission->refresh();
@@ -40,8 +38,7 @@ class PermissionAssignmentTest extends Base
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_user_by_permission_id()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
+        $this->becomeSuperUserManager();
 
         $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);
@@ -100,8 +97,7 @@ class PermissionAssignmentTest extends Base
      */
     public function user_with_permission_can_revoke_permission_from_a_user()
     {
-        $admin = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($admin);
+        $this->becomeSuperUserManager();
 
         $user = $this->getAUser();
         $permission = Permission::create(['name' => 'manage all']);
@@ -132,7 +128,7 @@ class PermissionAssignmentTest extends Base
      */
     public function a_user_with_manage_users_permission_can_assign_a_permission_to_a_role()
     {
-        Passport::actingAs($this->getAUserWithSuperManageUsersPermission());
+        $this->becomeSuperUserManager();
 
         $role = Role::create(['name' => 'manager']);
         $permission = Permission::create(['name' => 'manage things']);
