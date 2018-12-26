@@ -49,8 +49,7 @@ class RoleAssignmentTest extends Base
     /** @test */
     public function a_user_without_manage_users_permission_can_not_assign_a_role()
     {
-        $randomUser = $this->getAUser();
-        Passport::actingAs($randomUser);
+        $this->becomeARandomUser();
 
         $user = $this->getAUser();
         $role = Role::create(['name' => 'manager']);

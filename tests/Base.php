@@ -65,9 +65,24 @@ class Base extends TestCase
         return $r;
     }
 
-    public function becomeSuperUserManager(): void
+    public function becomeSuperUserManager(): User
     {
-        $super = $this->getAUserWithSuperManageUsersPermission();
-        Passport::actingAs($super);
+        $user = $this->getAUserWithSuperManageUsersPermission();
+        Passport::actingAs($user);
+        return $user;
+    }
+
+    public function becomeARandomUser(): User
+    {
+        $user = $this->getAUser();
+        Passport::actingAs($user);
+        return $user;
+    }
+
+    public function becomeSuperAdmin(): User
+    {
+        $user = $this->getASuperAdmin();
+        Passport::actingAs($user);
+        return $user;
     }
 }

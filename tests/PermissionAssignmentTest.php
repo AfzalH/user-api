@@ -58,8 +58,7 @@ class PermissionAssignmentTest extends Base
      */
     public function a_user_without_manage_users_permission_cannot_assign_a_permission_to_a_user_by_permission_name()
     {
-        $actor = $this->getAUser();
-        Passport::actingAs($actor);
+        $this->becomeARandomUser();
 
         $user = $this->getAUser();
         $permission = Permission::create(['name' => 'create user']);

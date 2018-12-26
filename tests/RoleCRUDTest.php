@@ -26,7 +26,7 @@ class RoleCRUDTest extends Base
         $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
         $r->assertStatus(401);
 
-        Passport::actingAs($this->getAUser());
+        $this->becomeARandomUser();
         $r = $this->post($this->prefix . 'roles', ['name' => 'HR Manager']);
         $r->assertStatus(403);
     }

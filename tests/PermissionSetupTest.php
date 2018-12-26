@@ -2,7 +2,6 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -11,8 +10,7 @@ class PermissionSetupTest extends Base
     /** @test */
     public function super_admin_can_create_initial_permissions_and_roles()
     {
-        $super = $this->getASuperAdmin();
-        Passport::actingAs($super);
+        $this->becomeSuperAdmin();
 
         $r = $this->get(config('userApi.router_prefix') . 'init-permissions-and-roles');
         $r->assertOk();
@@ -27,8 +25,7 @@ class PermissionSetupTest extends Base
         $r = $this->get(config('userApi.router_prefix') . 'init-permissions-and-roles');
         $r->assertStatus(401);
 
-        $user = $this->getAUser();
-        Passport::actingAs($user);
+        $this->becomeARandomUser();
 
         $r = $this->get(config('userApi.router_prefix') . 'init-permissions-and-roles');
         $r->assertStatus(403);

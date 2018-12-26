@@ -54,8 +54,7 @@ class UserCreationTest extends Base
     /** @test */
     public function a_user_without_proper_permission_can_not_create_another_user()
     {
-        $user = $this->getAUser();
-        Passport::actingAs($user);
+        $this->becomeARandomUser();
 
         $r = $this->createSampleUserViaRestAPI();
         $r->assertStatus(403);
