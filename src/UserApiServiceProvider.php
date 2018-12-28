@@ -15,6 +15,7 @@ class UserApiServiceProvider extends ServiceProvider
                 __DIR__ . '/../config/userApi.php' => config_path('userApi.php'),
             ], 'config');
         }
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         $this->routes();
     }
 
