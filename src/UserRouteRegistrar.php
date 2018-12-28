@@ -21,6 +21,7 @@ class UserRouteRegistrar
         $this->testRoutes();
         $this->setupRoutes();
         $this->userRoutes();
+        $this->businessRoutes();
     }
 
     public function testRoutes(): void
@@ -58,6 +59,13 @@ class UserRouteRegistrar
 
             $router->delete('roles', 'RoleController@delete');
 
+        });
+    }
+
+    public function businessRoutes()
+    {
+        $this->router->group(['middleware' => config('userApi.router_middleware_business_creation')], function (Router $router) {
+            $router->post('businesses', 'BusinessController@store');
         });
     }
 }
