@@ -2,12 +2,13 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
 class PermissionSetupTest extends Base
 {
-    /** @test */
+    /** @test
+     * @throws \Exception
+     */
     public function super_admin_can_create_initial_permissions_and_roles()
     {
         $this->becomeSuperAdmin();
@@ -15,8 +16,8 @@ class PermissionSetupTest extends Base
         $r = $this->get(config('userApi.router_prefix') . 'init-permissions-and-roles');
         $r->assertOk();
 
-        $this->assertEquals(Role::count(), count(config('userApi.initial_super_roles')) + count(config('userApi.initial_user_roles')));
-        $this->assertEquals(Permission::count(), count(config('userApi.initial_super_permissions')) + count(config('userApi.initial_user_permissions')));
+        $super = $this->getASuperAdmin();
+        $this->assertTrue($super->hasPermissionTo('super businesses'));
     }
 
     /** @test */

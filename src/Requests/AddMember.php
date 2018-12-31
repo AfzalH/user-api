@@ -5,16 +5,23 @@ namespace AfzalH\UserApi\Requests;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreUser extends FormRequest
+class AddMember extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
+     * @throws \Exception
      */
     public function authorize()
     {
-        return true;
+        /** @var User $authUser */
+        $authUser = \Auth::user();
+        if ($authUser->hasRole('super admin')) return true;
+        if ($authUser->hasPermissionTo('manage users') and $authUser->isMemberOf(request('business_id'))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -25,9 +32,8 @@ class StoreUser extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'unique:users'],
-            'name' => ['required', 'min:1'],
-            'password' => ['required', 'min:6'],
+            'business_id' => ['required', 'exists:businesses,id'],
+            'user' => ['required'],
         ];
     }
 

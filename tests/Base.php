@@ -29,7 +29,7 @@ class Base extends TestCase
     public function getAUserWithSuperManageUsersPermission(): User
     {
         $user = $this->getAUser();
-        $permission = Permission::create(['name' => 'super manage users']);
+        $permission = Permission::findOrCreate('super manage users');
         $user->givePermissionTo($permission);
         return $user;
     }
@@ -37,7 +37,7 @@ class Base extends TestCase
     public function getASuperAdmin(): User
     {
         $user = $this->getAUser();
-        $role = Role::create(['name' => 'super admin']);
+        $role = Role::findOrCreate('super admin');
         $user->assignRole($role);
         return $user;
     }

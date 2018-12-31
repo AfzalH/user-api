@@ -29,32 +29,55 @@ class InitPermissionController
     public function createSuperPermissions(): void
     {
         $permissions = config('userApi.initial_super_permissions');
-        foreach ($permissions as $permission) {
-            Permission::findOrCreate($permission);
-        }
+        $this->createThesePermissions($permissions);
     }
 
     public function createUserPermissions(): void
     {
         $permissions = config('userApi.initial_user_permissions');
-        foreach ($permissions as $permission) {
-            Permission::findOrCreate($permission);
-        }
+        $this->createThesePermissions($permissions);
     }
 
     public function createSuperRoles(): void
     {
         $roles = config('userApi.initial_super_roles');
-        foreach ($roles as $role) {
-            Role::findOrCreate($role);
-        }
+        $this->createTheseRoles($roles);
     }
 
     public function createUserRoles(): void
     {
         $roles = config('userApi.initial_user_roles');
+        $this->createTheseRoles($roles);
+    }
+
+    public function createTheseRoles($roles): void
+    {
         foreach ($roles as $role) {
-            Role::findOrCreate($role);
+            if (is_array($role)) {
+                /** @var Role $createdRole */
+                $createdRole = Role::findOrCreate($role['name']);
+                $this->createThesePermissions($role['permissions']);
+                $this->assignThesePermissions($role['permissions'], $createdRole);
+            } else {
+                Role::findOrCreate($role);
+            }
+
+        }
+    }
+
+    public function createThesePermissions($permissions): void
+    {
+        if (!is_array($permissions)) return;
+        foreach ($permissions as $permission) {
+            Permission::findOrCreate($permission);
+        }
+    }
+
+    public function assignThesePermissions($permissions, Role $createdRole): void
+    {
+        if (!is_array($permissions)) return;
+        foreach ($permissions as $permission) {
+            $createdRole->givePermissionTo($permission);
         }
     }
 }

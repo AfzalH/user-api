@@ -67,5 +67,8 @@ class UserRouteRegistrar
         $this->router->group(['middleware' => config('userApi.router_middleware_business_creation')], function (Router $router) {
             $router->post('businesses', 'BusinessController@store');
         });
+        $this->router->group(['middleware' => config('userApi.router_middleware_business_manage_members')], function (Router $router) {
+            $router->post('business/add-member', 'BusinessController@addMember');
+        });
     }
 }
