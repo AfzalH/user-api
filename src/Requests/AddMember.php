@@ -34,7 +34,7 @@ class AddMember extends FormRequest
     {
         return [
             'business_id' => ['required', 'exists:businesses,id'],
-            'user' => ['required', new NotAssociatedWithABusiness()],
+            'user' => ['required', new NotAssociatedWithABusiness],
         ];
     }
 

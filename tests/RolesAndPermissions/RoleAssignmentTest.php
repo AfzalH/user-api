@@ -2,7 +2,6 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use Laravel\Passport\Passport;
 use Spatie\Permission\Models\Role;
 
 class RoleAssignmentTest extends Base

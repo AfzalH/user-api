@@ -2,9 +2,6 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use App\User;
-use Laravel\Passport\Passport;
-
 class UserValidationTest extends Base
 {
     public $superEmail;

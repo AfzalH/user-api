@@ -3,7 +3,6 @@
 namespace AfzalH\UserApi\Tests;
 
 use App\User;
-use Laravel\Passport\Passport;
 
 class UserCreationTest extends Base
 {

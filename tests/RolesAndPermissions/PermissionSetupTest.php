@@ -2,8 +2,6 @@
 
 namespace AfzalH\UserApi\Tests;
 
-use Spatie\Permission\Models\Role;
-
 class PermissionSetupTest extends Base
 {
     /** @test
